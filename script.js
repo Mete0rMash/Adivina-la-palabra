@@ -1,6 +1,7 @@
 const words = ["HELLO", "WORLD", "PYTHON", "OPENAI", "BRAVE", "APPLE", "BEACH", "CLOUD", "DELTA", "EAGLE"];
 
 const MAX_ATTEMPTS = 6;
+const MAX_INPUT_LENGTH = 5;
 
 let currentWord = "";
 let currentWordArray = [];
@@ -16,15 +17,24 @@ for (let i = 0; i < keys.length; i++) {
   key.addEventListener("click", handleKeyClick);
 }
 
+const submitBtn = document.getElementById("submit-btn");
+submitBtn.addEventListener("click", handleSubmission);
+
+const eraseBtn = document.getElementById("erase-btn");
+eraseBtn.addEventListener("click", handleErase);
+
 function handleKeyClick(event) {
-  const key = event.target;
-  const value = key.textContent;
-  
-  // Add the letter to the current word
-  currentWord += value;
-  wordDisplay.textContent = currentWord;
-  
-  // Check if the word is complete
+  if (currentWord.length < MAX_INPUT_LENGTH) {
+    const key = event.target;
+    const value = key.textContent;
+    
+    // Add the letter to the current word
+    currentWord += value;
+    wordDisplay.textContent = currentWord;
+  }
+}
+
+function handleSubmission() {
   if (currentWord.length === currentWordArray.length) {
     numAttempts++;
     
@@ -48,10 +58,27 @@ function handleKeyClick(event) {
   }
 }
 
+function handleErase() {
+  currentWord = "";
+  wordDisplay.textContent = "";
+}
+
 function disableAllKeys() {
   for (let i = 0; i < keys.length; i++) {
     keys[i].setAttribute("disabled", "true");
   }
+  
+  submitBtn.setAttribute("disabled", "true");
+  eraseBtn.setAttribute("disabled", "true");
+}
+
+function enableAllKeys() {
+  for (let i = 0; i < keys.length; i++) {
+    keys[i].removeAttribute("disabled");
+  }
+  
+  submitBtn.removeAttribute("disabled");
+  eraseBtn.removeAttribute("disabled");
 }
 
 function newGame() {
@@ -72,12 +99,6 @@ function newGame() {
   
   // Enable all the keys
   enableAllKeys();
-}
-
-function enableAllKeys() {
-  for (let i = 0; i < keys.length; i++) {
-    keys[i].removeAttribute("disabled");
-  }
 }
 
 newGame();
