@@ -33,4 +33,11 @@
     cursor: default;
     opacity: 0.5;
   }
+
+  .correct {
+    color: green;
+  }
   
+  .incorrect {
+    color: red;
+  }

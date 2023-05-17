@@ -7,6 +7,7 @@ let currentWord = "";
 let currentWordArray = [];
 let guessedLetters = [];
 let numAttempts = 0;
+let disabledLetters = new Set();
 
 const wordDisplay = document.getElementById("word-display");
 const feedbackDisplay = document.getElementById("feedback");
@@ -49,23 +50,47 @@ function handleSubmission() {
     } else {
       // The guess was incorrect
       feedbackDisplay.textContent = "Incorrect guess. Keep trying!";
+      
+      // Disable incorrect letters in the virtual keyboard
+      const guessedLettersSet = new Set(currentWord.split(""));
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const value = key.textContent;
+        if (!guessedLettersSet.has(value)) {
+          key.setAttribute("disabled", "true");
+          disabledLetters.add(value);
+        }
+      }
     }
     
-    // Reset the current word and guessed letters
-    currentWord = "";
-    guessedLetters = [];
-    wordDisplay.textContent = guessedLetters.join(" ");
+    // Color the correct letters in the word display
+    for (let i = 0; i < currentWordArray.length; i++) {
+      if (currentWordArray[i] === currentWord[i]) {
+        guessedLetters[i] = `<span class="correct">${currentWord[i]}</span>`;
+      } else {
+        guessedLetters[i] = `<span class="incorrect">${currentWord[i]}</span>`;
+      }
+    }
+    
+    wordDisplay.innerHTML = guessedLetters.join(" ");
   }
 }
 
 function handleErase() {
   currentWord = "";
   wordDisplay.textContent = "";
+  
+  // Enable all keys in the virtual keyboard
+  enableAllKeys();
 }
 
 function disableAllKeys() {
   for (let i = 0; i < keys.length; i++) {
-    keys[i].setAttribute("disabled", "true");
+    const key = keys[i];
+    const value = key.textContent;
+    if (!disabledLetters.has(value)) {
+      key.setAttribute("disabled", "true");
+    }
   }
   
   submitBtn.setAttribute("disabled", "true");
@@ -95,10 +120,11 @@ function newGame() {
   for (let i = 0; i < currentWordArray.length; i++) {
     guessedLetters.push("_");
   }
-  wordDisplay.textContent = guessedLetters.join(" ");
+  wordDisplay.innerHTML = guessedLetters.join(" ");
   
   // Enable all the keys
   enableAllKeys();
+  disabledLetters.clear();
 }
 
 newGame();
