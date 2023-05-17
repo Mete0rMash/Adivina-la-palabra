@@ -1,0 +1,32 @@
+#word-container {
+    text-align: center;
+}
+
+#target-word {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+#guess-container {
+    display: flex;
+    justify-content: center;
+}
+
+.guess-box {
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+    border: 1px solid black;
+    text-align: center;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#check-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+}
