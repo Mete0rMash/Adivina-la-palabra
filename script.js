@@ -1,4 +1,4 @@
-const words = ["HELLO", "WORLD", "PYTHON", "OPENAI", "BRAVE", "APPLE", "BEACH", "CLOUD", "DELTA", "EAGLE"];
+const words = ["HELLO", "WORLD", "PYTHON", "BRAVE", "APPLE", "BEACH", "CLOUD", "DELTA", "EAGLE"];
 
 const MAX_ATTEMPTS = 6;
 const MAX_INPUT_LENGTH = 5;

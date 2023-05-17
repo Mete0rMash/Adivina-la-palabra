@@ -29,9 +29,10 @@
     background-color: #999;
   }
   
-  .disabled {
-    cursor: default;
-    opacity: 0.5;
+  .key:disabled {
+    background-color: #303030; /* Grey out disabled keys */
+    color: #eee;
+    cursor: not-allowed; /* Change cursor to "not allowed" on hover */
   }
 
   .correct {
