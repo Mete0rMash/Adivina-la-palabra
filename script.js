@@ -38,61 +38,68 @@ function handleKeyClick(event) {
   }
 }
 
+const previousAttemptsContainer = document.getElementById("previous-attempts");
+
 function handleSubmission() {
-    if (currentWord.length === currentWordArray.length) {
-      numAttempts++;
-      
-      if (currentWord === currentWordArray.join("")) {
-        // The word was guessed correctly
-        feedbackDisplay.textContent = "Congratulations! You guessed the word!";
-        disableAllKeys();
-      } else if (numAttempts === MAX_ATTEMPTS) {
-        // The player ran out of attempts
-        feedbackDisplay.textContent = "Game over! You couldn't guess the word.";
-        disableAllKeys();
-      } else {
-        // Check if the letters are in the correct position
-        const correctLetters = [];
-        // Check if the letters are in incorrect positions
-        const incorrectPositions = [];
-        // Check if the letters are not in the word
-        const incorrectLetters = [];
-        
-        for (let i = 0; i < currentWordArray.length; i++) {
-          if (currentWordArray[i] === currentWord[i]) {
-            correctLetters.push(i);
-          } else if (currentWordArray.includes(currentWord[i])) {
-            incorrectPositions.push(i);
-          } else {
-            incorrectLetters.push(i);
-          }
+  if (currentWord.length === currentWordArray.length) {
+    numAttempts++;
+
+    if (currentWord === currentWordArray.join("")) {
+      // The word was guessed correctly
+      feedbackDisplay.textContent = "Congratulations! You guessed the word!";
+      disableAllKeys();
+    } else if (numAttempts === MAX_ATTEMPTS) {
+      // The player ran out of attempts
+      feedbackDisplay.textContent = "Game over! You couldn't guess the word.";
+      disableAllKeys();
+    } else {
+      // Check if the letters are in the correct position
+      const correctLetters = [];
+      // Check if the letters are in incorrect positions
+      const incorrectPositions = [];
+      // Check if the letters are not in the word
+      const incorrectLetters = [];
+
+      for (let i = 0; i < currentWordArray.length; i++) {
+        if (currentWordArray[i] === currentWord[i]) {
+          correctLetters.push(i);
+        } else if (currentWordArray.includes(currentWord[i])) {
+          incorrectPositions.push(i);
+        } else {
+          incorrectLetters.push(i);
         }
-        
-        // Color the correct letters in the word display
-        for (let i = 0; i < currentWordArray.length; i++) {
-          if (correctLetters.includes(i)) {
-            guessedLetters[i] = `<span class="correct">${currentWord[i]}</span>`;
-          } else if (incorrectPositions.includes(i)) {
-            guessedLetters[i] = `<span class="gold">${currentWord[i]}</span>`;
-          } else {
-            guessedLetters[i] = `<span class="incorrect">${currentWord[i]}</span>`;
-          }
-        }
-        
-        // Disable incorrect letters in the virtual keyboard
-        const disabledLetters = [...incorrectPositions, ...incorrectLetters].map(i => currentWord[i]);
-        for (let i = 0; i < keys.length; i++) {
-          const key = keys[i];
-          const value = key.textContent;
-          if (disabledLetters.includes(value)) {
-            key.setAttribute("disabled", "true");
-          }
-        }
-        
-        wordDisplay.innerHTML = guessedLetters.join(" ");
       }
+
+      // Color the correct letters in the word display
+      for (let i = 0; i < currentWordArray.length; i++) {
+        if (correctLetters.includes(i)) {
+          guessedLetters[i] = `<span class="correct">${currentWord[i]}</span>`;
+        } else if (incorrectPositions.includes(i)) {
+          guessedLetters[i] = `<span class="gold">${currentWord[i]}</span>`;
+        } else {
+          guessedLetters[i] = `<span class="incorrect">${currentWord[i]}</span>`;
+        }
+      }
+
+      // Disable incorrect letters in the virtual keyboard
+      const disabledLetters = [...incorrectPositions, ...incorrectLetters].map(i => currentWord[i]);
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const value = key.textContent;
+        if (disabledLetters.includes(value)) {
+          key.setAttribute("disabled", "true");
+        }
+      }
+
+      wordDisplay.innerHTML = guessedLetters.join(" ");
+
+      // Add the previous attempt to the container
+      const previousAttemptElement = document.createElement("div");
+      previousAttemptElement.innerHTML = `<span>${currentWord}</span>`;
+      previousAttemptsContainer.appendChild(previousAttemptElement);
     }
   }
+}
   
 function handleErase() {
   currentWord = "";
