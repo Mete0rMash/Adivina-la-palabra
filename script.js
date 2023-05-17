@@ -1,17 +1,16 @@
-// Define the word to guess and convert it to an array of characters
-const wordToGuess = "HELLO";
-const wordArray = wordToGuess.split("");
+const words = ["HELLO", "WORLD", "PYTHON", "OPENAI", "BRAVE", "APPLE", "BEACH", "CLOUD", "DELTA", "EAGLE"];
 
-// Track the guessed letters
-let guessedLetters = Array(wordArray.length).fill("_");
+const MAX_ATTEMPTS = 6;
 
-// Display the initial word status
+let currentWord = "";
+let currentWordArray = [];
+let guessedLetters = [];
+let numAttempts = 0;
+
 const wordDisplay = document.getElementById("word-display");
-wordDisplay.textContent = guessedLetters.join(" ");
+const feedbackDisplay = document.getElementById("feedback");
 
-// Handle the guess submission
 const keys = document.getElementsByClassName("key");
-
 for (let i = 0; i < keys.length; i++) {
   const key = keys[i];
   key.addEventListener("click", handleKeyClick);
@@ -19,40 +18,66 @@ for (let i = 0; i < keys.length; i++) {
 
 function handleKeyClick(event) {
   const key = event.target;
-  const guess = key.textContent;
+  const value = key.textContent;
   
-  if (!key.classList.contains("disabled")) {
-    // Compare the guess with the word
-    let feedback = "";
-    for (let i = 0; i < wordArray.length; i++) {
-      if (guess === wordArray[i]) {
-        guessedLetters[i] = guess;
-      }
-    }
-    wordDisplay.textContent = guessedLetters.join(" ");
+  // Add the letter to the current word
+  currentWord += value;
+  wordDisplay.textContent = currentWord;
+  
+  // Check if the word is complete
+  if (currentWord.length === currentWordArray.length) {
+    numAttempts++;
     
-    // Disable the used key
-    key.classList.add("disabled");
-    
-    // Check if the word has been guessed
-    if (guessedLetters.join("") === wordToGuess) {
-      feedback = "Congratulations! You guessed the word!";
+    if (currentWord === currentWordArray.join("")) {
+      // The word was guessed correctly
+      feedbackDisplay.textContent = "Congratulations! You guessed the word!";
       disableAllKeys();
-    } else if (!guessedLetters.includes("_")) {
-      feedback = "Game over! You couldn't guess the word.";
+    } else if (numAttempts === MAX_ATTEMPTS) {
+      // The player ran out of attempts
+      feedbackDisplay.textContent = "Game over! You couldn't guess the word.";
       disableAllKeys();
     } else {
-      feedback = "Incorrect guess. Keep trying!";
+      // The guess was incorrect
+      feedbackDisplay.textContent = "Incorrect guess. Keep trying!";
     }
     
-    // Provide feedback
-    const feedbackDisplay = document.getElementById("feedback");
-    feedbackDisplay.textContent = feedback;
+    // Reset the current word and guessed letters
+    currentWord = "";
+    guessedLetters = [];
+    wordDisplay.textContent = guessedLetters.join(" ");
   }
 }
 
 function disableAllKeys() {
   for (let i = 0; i < keys.length; i++) {
-    keys[i].classList.add("disabled");
+    keys[i].setAttribute("disabled", "true");
   }
 }
+
+function newGame() {
+  // Reset the game state
+  currentWord = "";
+  guessedLetters = [];
+  numAttempts = 0;
+  feedbackDisplay.textContent = "";
+  
+  // Choose a new random word
+  const fiveLetterWords = words.filter(word => word.length === 5);
+  const randomIndex = Math.floor(Math.random() * fiveLetterWords.length);
+  currentWordArray = fiveLetterWords[randomIndex].split("");
+  for (let i = 0; i < currentWordArray.length; i++) {
+    guessedLetters.push("_");
+  }
+  wordDisplay.textContent = guessedLetters.join(" ");
+  
+  // Enable all the keys
+  enableAllKeys();
+}
+
+function enableAllKeys() {
+  for (let i = 0; i < keys.length; i++) {
+    keys[i].removeAttribute("disabled");
+  }
+}
+
+newGame();
