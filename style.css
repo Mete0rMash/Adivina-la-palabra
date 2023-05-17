@@ -38,10 +38,10 @@
     color: green;
   }
   
-  .incorrect {
-    color: red;
-  }
-
   .gold {
     color: gold;
+  }
+  
+  .incorrect {
+    color: red;
   }

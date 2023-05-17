@@ -82,7 +82,7 @@ function handleSubmission() {
       }
 
       // Disable incorrect letters in the virtual keyboard
-      const disabledLetters = [...incorrectPositions, ...incorrectLetters].map(i => currentWord[i]);
+      const disabledLetters = [...incorrectLetters].map(i => currentWord[i]);
       for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
         const value = key.textContent;
@@ -93,20 +93,17 @@ function handleSubmission() {
 
       wordDisplay.innerHTML = guessedLetters.join(" ");
 
-      // Add the previous attempt to the container
-      const previousAttemptElement = document.createElement("div");
-      previousAttemptElement.innerHTML = `<span>${currentWord}</span>`;
+      // Copy the word display to the attempts container
+      const previousAttemptElement = wordDisplay.cloneNode(true);
       previousAttemptsContainer.appendChild(previousAttemptElement);
     }
   }
 }
+
   
 function handleErase() {
   currentWord = "";
   wordDisplay.textContent = "";
-  
-  // Enable all keys in the virtual keyboard
-  enableAllKeys();
 }
 
 function disableAllKeys() {
