@@ -1,5 +1,3 @@
-const words = ["HELLO", "WORLD", "PYTHON", "BRAVE", "APPLE", "BEACH", "CLOUD", "DELTA", "EAGLE"];
-
 const MAX_ATTEMPTS = 6;
 const MAX_INPUT_LENGTH = 5;
 
@@ -46,11 +44,13 @@ function handleSubmission() {
 
     if (currentWord === currentWordArray.join("")) {
       // The word was guessed correctly
-      feedbackDisplay.textContent = "Congratulations! You guessed the word!";
+      feedbackDisplay.textContent = "Excelente! Adivinaste la palabra!";
+      feedbackDisplay.classList.add("rainbow");
       disableAllKeys();
     } else if (numAttempts === MAX_ATTEMPTS) {
       // The player ran out of attempts
-      feedbackDisplay.textContent = "Game over! You couldn't guess the word.";
+      feedbackDisplay.textContent = "Perdiste! Refresca la página y seguí intentandolo";
+      feedbackDisplay.classList.add("gloomy");
       disableAllKeys();
     } else {
       // Check if the letters are in the correct position
@@ -93,9 +93,13 @@ function handleSubmission() {
 
       wordDisplay.innerHTML = guessedLetters.join(" ");
 
+      console.log("Current word ", currentWord);
+
       // Copy the word display to the attempts container
       const previousAttemptElement = wordDisplay.cloneNode(true);
       previousAttemptsContainer.appendChild(previousAttemptElement);
+      currentWord = "";
+      wordDisplay.textContent = "";
     }
   }
 }
@@ -124,14 +128,15 @@ function enableAllKeys() {
   eraseBtn.removeAttribute("disabled");
 }
 
+// Define the newGame function
 function newGame() {
   // Reset the game state
   currentWord = "";
   guessedLetters = [];
   numAttempts = 0;
   feedbackDisplay.textContent = "";
-  
-  // Choose a new random word
+
+  // Choose a new random word from the words array
   const fiveLetterWords = words.filter(word => word.length === 5);
   const randomIndex = Math.floor(Math.random() * fiveLetterWords.length);
   currentWordArray = fiveLetterWords[randomIndex].split("");
@@ -139,9 +144,11 @@ function newGame() {
     guessedLetters.push("_");
   }
   wordDisplay.innerHTML = guessedLetters.join(" ");
-  
+
   // Enable all the keys
   enableAllKeys();
+
+  console.log("Chosen word:", currentWordArray.join(""));
 }
 
-newGame();
+newGame(); // Start a new game on page load

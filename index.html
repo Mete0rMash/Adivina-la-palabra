@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Sign Language Wordle</title>
+  <title>Adivina la palabra</title>
   <link rel="stylesheet" type="text/css" href="style.css">
+  
+  <script src="dictionary.js"></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <h1>Sign Language Wordle</h1>
-  <div id="previous-attempts"></div>
-  <div id="word-display"></div>
+  <div class="container-all">
+  <h1>ADIVINA LA PALABRA</h1>
+  <div class="container">
+    <div id="previous-attempts"></div>
+    <div id="word-display"></div>
+  </div>
   <div id="keyboard">
     <div class="keyboard-row">
       <button class="key">A</button>
@@ -36,16 +42,15 @@
       <button class="key">V</button>
     </div>
     <div class="keyboard-row">
-      <button id="submit-btn">Submit</button>
+      <button id="submit-btn">↵</button>
       <button class="key">W</button>
       <button class="key">X</button>
       <button class="key">Y</button>
       <button class="key">Z</button>
-      <button id="erase-btn">Erase</button>
+      <button id="erase-btn">←</button>
     </div>
   </div>
   <div id="feedback"></div>
-  
-  <script src="script.js"></script>
+  </div>
 </body>
 </html>

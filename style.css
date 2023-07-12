@@ -1,3 +1,46 @@
+body {
+  background-color: #323341;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -175px;
+}
+
+h1 {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: 56px;
+  color: #eee;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#previous-attempts {
+  font-size: 24px;
+  color: #eee;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#word-display {
+  font-size: 36px;
+  color: #eee;
+  text-align: center;
+}
+
 #keyboard {
     display: flex;
     flex-direction: column;
@@ -19,6 +62,20 @@
     background-color: #eee;
     color: #333;
     cursor: pointer;
+  }
+
+  #submit-btn {
+    background-color: rgb(143, 221, 143);
+    height: 50px;
+    width: 45px;
+    font-size: 30px;
+  }
+
+  #erase-btn {
+    background-color: rgb(236, 149, 149);
+    height: 50px;
+    width: 45px;
+    font-size: 30px;
   }
   
   .key:hover {
@@ -45,4 +102,43 @@
   
   .incorrect {
     color: red;
+  }
+  
+  @keyframes waveAnimation {
+    0% { transform: translateY(0); }
+    25% { transform: translateY(-5px); }
+    50% { transform: translateY(0); }
+    75% { transform: translateY(5px); }
+    100% { transform: translateY(0); }
+  }
+
+  @keyframes rainbowAnimation {
+    0% { color: red; }
+    14% { color: orange; }
+    28% { color: yellow; }
+    42% { color: green; }
+    57% { color: blue; }
+    71% { color: indigo; }
+    85% { color: violet; }
+    100% { color: red; }
+  }
+
+  @keyframes gloomyAnimation {
+    0% { color: rgb(92, 92, 92); }
+    50% { color: darkgray; }
+    100% { color: rgb(56, 56, 56) }
+  }
+  
+  #feedback {
+    font-size: 45px;
+    font-family: fantasy;
+    text-align: center;
+  }
+
+  .rainbow {
+    animation: waveAnimation 2s ease-in-out infinite, rainbowAnimation 5s linear infinite;
+  }
+  
+  .gloomy {
+    animation: waveAnimation 2s ease-in-out infinite, gloomyAnimation 5s linear infinite;
   }
